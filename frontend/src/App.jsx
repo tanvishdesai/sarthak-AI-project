@@ -9,28 +9,32 @@ const Navigation = () => {
   const location = useLocation();
   
   return (
-    <nav className="nav-header">
-      <div className="nav-brand">
-        <GraduationCap size={32} color="#60A5FA" />
-        <span>EduPredict</span>
-      </div>
-      <div className="nav-links">
-        <Link 
-          to="/" 
-          className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
-        >
-          <BarChart2 size={20} />
-          Prediction
-        </Link>
-        <Link 
-          to="/history" 
-          className={`nav-link ${location.pathname === '/history' ? 'active' : ''}`}
-        >
-          <History size={20} />
-          History
-        </Link>
-      </div>
-    </nav>
+    <div className="nav-wrapper">
+      <nav className="nav-header">
+        <div className="nav-brand">
+          <div className="nav-brand-icon-wrapper">
+             <GraduationCap size={20} color="white" />
+          </div>
+          <span>EduPredict</span>
+        </div>
+        <div className="nav-links">
+          <Link 
+            to="/" 
+            className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+          >
+            <BarChart2 size={16} />
+            Prediction
+          </Link>
+          <Link 
+            to="/history" 
+            className={`nav-link ${location.pathname === '/history' ? 'active' : ''}`}
+          >
+            <History size={16} />
+            History
+          </Link>
+        </div>
+      </nav>
+    </div>
   );
 };
 
