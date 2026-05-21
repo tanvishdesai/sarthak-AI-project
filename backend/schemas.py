@@ -8,6 +8,7 @@ class PredictionInput(BaseModel):
     internal_marks: float = Field(..., ge=0, le=100, description="Internal marks percentage")
     previous_grades: float = Field(..., ge=0, le=100, description="Previous semester grades")
     assignment_completion: float = Field(..., ge=0, le=100, description="Assignment completion percentage")
+    model_name: Optional[str] = Field(default="lr", description="Model to use: lr, rf, or svm")
 
 class PredictionResponse(BaseModel):
     id: int
@@ -18,6 +19,7 @@ class PredictionResponse(BaseModel):
     assignment_completion: float
     prediction: str
     probability: float
+    used_model: str
     timestamp: datetime
 
     class Config:

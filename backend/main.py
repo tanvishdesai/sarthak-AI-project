@@ -47,7 +47,7 @@ def predict_performance(student: schemas.PredictionInput, db: Session = Depends(
     
     # Run prediction
     try:
-        result = ml_model.predict(features)
+        result = ml_model.predict(features, model_name=student.model_name)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
@@ -59,7 +59,8 @@ def predict_performance(student: schemas.PredictionInput, db: Session = Depends(
         previous_grades=student.previous_grades,
         assignment_completion=student.assignment_completion,
         prediction=result["prediction"],
-        probability=result["probability"]
+        probability=result["probability"],
+        used_model=student.model_name
     )
     db.add(db_prediction)
     db.commit()

@@ -13,4 +13,5 @@ class PredictionHistory(Base):
     assignment_completion = Column(Float)
     prediction = Column(String)  # 'Pass' or 'Fail'
     probability = Column(Float)
+    used_model = Column(String, default="lr")
     timestamp = Column(DateTime, default=datetime.datetime.utcnow)

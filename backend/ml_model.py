@@ -1,11 +1,15 @@
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler
 
 class StudentPerformanceModel:
     def __init__(self):
-        self.model = LogisticRegression()
+        self.lr_model = LogisticRegression()
+        self.rf_model = RandomForestClassifier(random_state=42)
+        self.svm_model = SVC(probability=True, random_state=42)
         self.scaler = StandardScaler()
         self._train_dummy_model()
 
@@ -49,16 +53,25 @@ class StudentPerformanceModel:
         
         # Scale and fit
         X_scaled = self.scaler.fit_transform(X)
-        self.model.fit(X_scaled, y)
-        print("Model trained on 1000 dummy samples.")
+        self.lr_model.fit(X_scaled, y)
+        self.rf_model.fit(X_scaled, y)
+        self.svm_model.fit(X_scaled, y)
+        print("Models (LR, RF, SVM) trained on 1000 dummy samples.")
 
-    def predict(self, features: dict):
+    def predict(self, features: dict, model_name: str = "lr"):
         # Input features must match the training dataframe order
         df = pd.DataFrame([features])
         X_scaled = self.scaler.transform(df)
         
-        prediction = self.model.predict(X_scaled)[0]
-        probability = self.model.predict_proba(X_scaled)[0][1] # Probability of class 1 (Pass)
+        if model_name == "rf":
+            model = self.rf_model
+        elif model_name == "svm":
+            model = self.svm_model
+        else:
+            model = self.lr_model
+            
+        prediction = model.predict(X_scaled)[0]
+        probability = model.predict_proba(X_scaled)[0][1] # Probability of class 1 (Pass)
         
         return {
             "prediction": "Pass" if prediction == 1 else "Fail",
